@@ -27,7 +27,7 @@ namespace advent2020::tobogganPasswords {
 		auto target{ targetChar(password) };
 		auto raw{ rawPassword(password) };
 
-		size_t count{ countTargetInstances(raw, target) };
+		auto count{ countTargetInstances(raw, target) };
 		return count >= min && count <= max;
 	}
 	bool passwordValidNewScheme(const std::string& password) {
