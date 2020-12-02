@@ -13,7 +13,7 @@ namespace {
 		return p.substr(p.find(' ') + 1, p.find(':'))[0];
 	}
 	auto rawPassword(const std::string& p) {
-		return p.substr(p.find(':') + 1);
+		return p.substr(p.find(':') + 2);
 	}
 	auto countTargetInstances(const std::string& p, char target) {
 		return static_cast<size_t>(std::count(std::begin(p), std::end(p), target));
@@ -31,8 +31,8 @@ namespace advent2020::tobogganPasswords {
 		return count >= min && count <= max;
 	}
 	bool passwordValidNewScheme(const std::string& password) {
-		auto firstPos{ schemeFirstNumber(password) };
-		auto secondPos{ schemeSecondNumber(password) };
+		auto firstPos{ schemeFirstNumber(password) - 1 };
+		auto secondPos{ schemeSecondNumber(password) - 1 };
 		auto target{ targetChar(password) };
 		auto raw{ rawPassword(password) };
 
