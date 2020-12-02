@@ -24,7 +24,7 @@ namespace advent2020::tobogganPasswords {
 	bool passwordValidOldScheme(const std::string& password) {
 		auto min{ schemeFirstNumber(password) };
 		auto max{ schemeSecondNumber(password) };
-		char target{ targetChar(password) };
+		auto target{ targetChar(password) };
 		auto raw{ rawPassword(password) };
 
 		size_t count{ countTargetInstances(raw, target) };
@@ -33,7 +33,7 @@ namespace advent2020::tobogganPasswords {
 	bool passwordValidNewScheme(const std::string& password) {
 		auto firstPos{ schemeFirstNumber(password) };
 		auto secondPos{ schemeSecondNumber(password) };
-		char target{ targetChar(password) };
+		auto target{ targetChar(password) };
 		auto raw{ rawPassword(password) };
 
 		return (raw[firstPos] == target) != (raw[secondPos] == target);
