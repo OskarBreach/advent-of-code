@@ -2,18 +2,33 @@
 
 #include <vector>
 #include <fstream>
+#include <string>
+#include <sstream>
 
 namespace parsing {
 	template<class T>
-	auto getVector(const char* filename) {
+	auto getValue(const std::string& line) {
+		T ret;
+		std::istringstream ss{ line };
+		ss >> ret;
+		return ret;
+	}
+	template<>
+	auto getValue<std::string>(const std::string& line) {
+		return line;
+	}
+
+	template<class T>
+	auto getVector(const std::string& filename) {
 		std::ifstream inputFile{ filename };
 
 		std::vector<T> ret{};
 		T value;
 
 		if (inputFile) {
-			while (inputFile >> value) {
-				ret.push_back(value);
+			std::string line;
+			while (std::getline(inputFile, line)) {
+				ret.push_back(getValue<T>(line));
 			}
 		}
 
