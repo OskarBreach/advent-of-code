@@ -2,6 +2,7 @@
 
 #include "expenses.h"
 #include "tobogganPasswords.h"
+#include "tobogganTrajectory.h"
 
 #include "parsing.h"
 
@@ -42,10 +43,26 @@ namespace {
 			<< "Part 2: " << acceptedByNewScheme << '\n'
 			<< '\n';
 	}
+	void printDay03Solutions() {
+		const auto treeMap{ parsing::getVector<std::string>("2020/input03.txt") };
+
+		const auto te11{ advent2020::tobagganTrajectory::treesEncountered(treeMap, 1, 1) };
+		const auto te31{ advent2020::tobagganTrajectory::treesEncountered(treeMap, 3, 1) };
+		const auto te51{ advent2020::tobagganTrajectory::treesEncountered(treeMap, 5, 1) };
+		const auto te71{ advent2020::tobagganTrajectory::treesEncountered(treeMap, 7, 1) };
+		const auto te12{ advent2020::tobagganTrajectory::treesEncountered(treeMap, 1, 2) };
+
+		std::cout << "Day 03:\n"
+			<< "Part 1: " << te31 << '\n'
+			<< "Part 2: " << te11 * te31 * te51 * te71 * te12
+			<< " (" << te11 << " * " << te31 << " * " << te51 << " * " << te71 << " * " << te12 << ")\n"
+			<< '\n';
+	}
 }
 
 void print2020Solutions() {
 	std::cout << "Advent of Code 2020:" << "\n";
 	printDay01Solutions();
 	printDay02Solutions();
+	printDay03Solutions();
 }
