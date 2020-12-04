@@ -399,4 +399,29 @@ namespace TestPassportProcessing {
 			thenPassportInvalid(3);
 		}
 	} GPPUNIT_INSTANCE;
+
+	class TestPassportValidationChecksAllFieldsPresent : public Base {
+		void test() {
+			givenPassportProcessing();
+
+			whenBatchFileProcessed({
+				"pid:087499704 hgt:59in ecl:brn iyr:2010 eyr:2020 byr:1920",
+				"hcl:#623a2f",
+				"",
+				"pid:087499704 hgt:59in ecl:brn iyr:2010 eyr:2020",
+				"hcl:#623a2f",
+				"",
+				"pid:000000001 hgt:59in ecl:brn iyr:2010 eyr:2020 byr:1920",
+				"hcl:#623a2f",
+				"",
+				"pid:087499704 hgt:59in ecl:brn iyr:2010 byr:1920",
+				"hcl:#623a2f",
+				}
+			);
+			thenPassportValid(0);
+			thenPassportInvalid(1);
+			thenPassportValid(2);
+			thenPassportInvalid(3);
+		}
+	} GPPUNIT_INSTANCE;
 }

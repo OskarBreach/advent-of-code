@@ -69,9 +69,10 @@ namespace {
 		for (const auto& passport : passports) {
 			if (advent2020::passportProcessing::passportContainsAllRequiredFields(passport)) {
 				++passportsContainingAllRequiredFields;
-				if (advent2020::passportProcessing::passportValid(passport)) {
-					++validPassports;
-				}
+
+			}
+			if (advent2020::passportProcessing::passportValid(passport)) {
+				++validPassports;
 			}
 		}
 

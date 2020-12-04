@@ -3,9 +3,15 @@
 #include <regex>
 
 namespace {
-	bool passportContains(const advent2020::passportProcessing::Passport& passport, const std::string& key) {
-		return passport.find(key) != std::end(passport);
-	}
+	const std::map<std::string, std::regex> validationChecks{
+		{"byr", std::regex{"^19[2-9][0-9]|200[0-2]$"}},
+		{"iyr", std::regex{"^20(1[0-9]|20)$"}},
+		{"eyr", std::regex{"^20(2[0-9]|30)$"}},
+		{"hgt", std::regex{"^1([5-8][0-9]|9[0-3])cm|(59|6[0-9]|7[0-6])in$"}},
+		{"hcl", std::regex{"^#[0-9a-f]{6}$"}},
+		{"ecl", std::regex{"^amb|blu|brn|gry|grn|hzl|oth$"}},
+		{"pid", std::regex{"^[0-9]{9}$"}}
+	};
 }
 
 namespace advent2020::passportProcessing {
@@ -40,38 +46,24 @@ namespace advent2020::passportProcessing {
 	}
 
 	bool passportContainsAllRequiredFields(const Passport& passport) {
-		return passportContains(passport, "byr")
-			&& passportContains(passport, "iyr")
-			&& passportContains(passport, "eyr")
-			&& passportContains(passport, "hgt")
-			&& passportContains(passport, "hcl")
-			&& passportContains(passport, "ecl")
-			&& passportContains(passport, "pid");
+		for (const auto& check: validationChecks) {
+			if (passport.find(check.first) == std::end(passport)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	bool passportValid(const Passport& passport) {
-		if (!std::regex_match(passport.at("byr"), std::regex{ "^19[2-9][0-9]|200[0-2]$" })) {
-			return false;
+		for (const auto& check : validationChecks) {
+			auto value{ passport.find(check.first) };
+			if (value == std::end(passport)) {
+				return false;
+			}
+			if (!std::regex_match(value->second, check.second)) {
+				return false;
+			}
 		}
-		if (!std::regex_match(passport.at("iyr"), std::regex{ "^20(1[0-9]|20)$" })) {
-			return false;
-		}
-		if (!std::regex_match(passport.at("eyr"), std::regex{ "^20(2[0-9]|30)$" })) {
-			return false;
-		}
-		if (!std::regex_match(passport.at("hgt"), std::regex{ "^1([5-8][0-9]|9[0-3])cm|(59|6[0-9]|7[0-6])in$" })) {
-			return false;
-		}
-		if (!std::regex_match(passport.at("hcl"), std::regex{ "^#[0-9a-f]{6}$" })) {
-			return false;
-		}
-		if (!std::regex_match(passport.at("ecl"), std::regex{ "^amb|blu|brn|gry|grn|hzl|oth$" })) {
-			return false;
-		}
-		if (!std::regex_match(passport.at("pid"), std::regex{ "^[0-9]{9}$" })) {
-			return false;
-		}
-
 		return true;
 	}
 }
